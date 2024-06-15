@@ -1,0 +1,24 @@
+sequenceDiagram
+    participant U as User
+    participant B as Browser
+    participant S as Server
+
+    U->>B: Enters note content
+    U->>B: Clicks Save button
+
+    Note right of B: The browser gathers the data and prepares a POST request
+
+    B->>S: POST https://studies.cs.helsinki.fi/exampleapp/new_note {content, date}
+    activate S
+    S-->>B: Response (success or failure)
+    deactivate S
+
+    Note right of B: The browser checks the response
+
+    alt successful response
+        B->>B: Adds the new note to the display
+    else error in response
+        B->>B: Shows an error message
+    end
+
+    Note right of B: The page might not reload, using JavaScript to update content

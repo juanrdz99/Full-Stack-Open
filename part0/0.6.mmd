@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant U as User
+    participant B as Browser
+    participant S as Server
+
+    U->>B: Types in new note and clicks 'Save'
+    Note right of B: The browser collects input data
+
+    B->>B: Validate input data
+    alt validation success
+        B->>S: POST https://studies.cs.helsinki.fi/exampleapp/spa/new_note { content, date }
+        activate S
+        S-->>B: 201 Created { noteId, content, date }
+        deactivate S
+
+        Note right of B: Browser receives new note data
+
+        B->>B: JavaScript adds the new note to the display without reloading the page
+    else validation failure
+        B->>B: Show error message to the user
+    end
+
+    Note right of B: The SPA handles the addition locally, the page does not reload
